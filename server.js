@@ -1,11 +1,48 @@
-var express = require('express');
+var express = require('express'),
+    path = require('path');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
 app.get('/', function (req, res) {
-  res.send('Hello World!sfasd')
+  res.render('index');
 });
 
 app.listen(8080, function () {
   console.log('Example app listening on port 8080!')
+});
+
+app.get('/:timestamp', function(req, res) {
+   var date = new Date(Number(req.params.timestamp) * 1000),
+       json = {
+           "unix": null,
+           "natural": null
+       },
+       months = {
+       "1": "January",
+       "2": "February",
+       "3": "March",
+       "4": "April",
+       "5": "May",
+       "6": "June",
+       "7": "July",
+       "8": "August",
+       "9": "September",
+       "10": "October",
+       "11": "November",
+       "12": "Decmeber"
+   };
+   if (isNaN(date.getTime())) {
+       date = new Date(req.params.timestamp);
+   }
+   if (isNaN(date.getTime())) {
+       date = null;
+   }
+   if (date !== null) {
+       json.unix = date.getTime() / 1000;
+       json.natural = months[date.getMonth() + 1] + " " + date.getDate() + ", " + date.getFullYear();
+   }
+   res.send(json);
 });
