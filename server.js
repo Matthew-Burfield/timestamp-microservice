@@ -1,10 +1,14 @@
 var express = require('express'),
-    path = require('path');
+    path    = require('path');
+    // sass    = require('node-sass');
 
 var app = express();
 
+// views as directory for all template files
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'jade'); // use either jade or ejs       // instruct express to server up static assets
+app.use(express.static('public'));
+    
 
 app.get('/', function (req, res) {
   res.render('index');
