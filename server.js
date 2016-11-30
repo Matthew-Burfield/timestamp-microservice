@@ -14,10 +14,6 @@ app.get('/', function (req, res) {
   res.render('index');
 });
 
-app.listen(8080, function () {
-  console.log('Example app listening on port 8080!')
-});
-
 app.get('/:timestamp', function(req, res) {
    var date = new Date(Number(req.params.timestamp) * 1000),
        json = {
@@ -49,4 +45,8 @@ app.get('/:timestamp', function(req, res) {
        json.natural = months[date.getMonth() + 1] + " " + date.getDate() + ", " + date.getFullYear();
    }
    res.send(json);
+});
+
+app.listen(process.env.PORT || 8080, function () {
+  console.log('Example app listening on port 8080!')
 });
